@@ -20,12 +20,12 @@
   --radius-lg: 16px;
   --topbar-h: 56px;
 
-  /* 模块主题色 - 默认(每日计划/雾蓝灰) */
-  --module-primary: #7B8FA1;
-  --module-dark: #5E7285;
-  --module-soft: #EDF1F4;
+  /* 模块主题色 - 默认(每日计划/深灰蓝) */
+  --module-primary: #3D5A6C;
+  --module-dark: #2A3F4D;
+  --module-soft: #E8EDF0;
   --module-accent: #C9A96E;
-  --module-gradient: linear-gradient(135deg, #7B8FA1 0%, #5E7285 100%);
+  --module-gradient: linear-gradient(135deg, #3D5A6C 0%, #2A3F4D 100%);
 }
 
 * {
@@ -549,36 +549,174 @@ input, textarea, select {
 }
 
 /* ============================
-   选题来源
+   选题池 - 灵感生成器
    ============================ */
-.tabs {
-  display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  margin-bottom: 14px;
-  -webkit-overflow-scrolling: touch;
-}
-.tabs::-webkit-scrollbar { display: none; }
 
-.tab {
-  padding: 8px 14px;
-  border-radius: 999px;
+/* 生成器卡片 */
+.generator-card {
+  background: linear-gradient(135deg, var(--module-soft) 0%, #FFFFFF 100%);
+  border: 2px solid var(--module-primary);
+  border-radius: var(--radius-lg);
+  padding: 24px 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.generator-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.generator-icon { font-size: 24px; }
+.generator-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--module-primary);
+}
+.generator-hint {
   font-size: 13px;
-  font-weight: 500;
+  color: var(--text-light);
+  margin-bottom: 16px;
+}
+.generator-btn {
+  background: var(--module-primary);
+  color: #FFFFFF;
+  padding: 13px 32px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+.generator-btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* 生成结果 - 按方向分组 */
+.gen-results {
+  margin-top: 20px;
+  text-align: left;
+}
+.gen-group {
+  margin-bottom: 16px;
+}
+.gen-group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--module-soft);
+}
+.gen-group-icon { font-size: 16px; }
+.gen-group-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--module-primary);
+  flex: 1;
+}
+.gen-group-count {
+  font-size: 11px;
+  color: var(--text-mute);
+  background: var(--module-soft);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.gen-group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.gen-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   background: #FFFFFF;
   border: 1px solid var(--border);
-  color: var(--text-light);
-  white-space: nowrap;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.gen-item-text {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+  word-break: break-word;
+}
+.gen-item-add,
+.gen-item-del {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
   flex-shrink: 0;
   transition: all 0.15s;
 }
-.tab.active {
+.gen-item-add {
+  background: var(--module-soft);
+  font-size: 16px;
+}
+.gen-item-add:active {
   background: var(--module-primary);
-  border-color: var(--module-primary);
-  color: #FFFFFF;
+  transform: scale(0.9);
+}
+.gen-item-del {
+  color: var(--text-mute);
+  font-size: 18px;
+}
+.gen-item-del:active { background: #FBE5E5; color: var(--danger); }
+.gen-clear {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-mute);
+  background: transparent;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+}
+.gen-clear:active { background: var(--module-soft); }
+
+/* 热点趋势参考 */
+.trend-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-sm);
+}
+.trend-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.trend-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.trend-tag {
+  font-size: 11px;
+  color: var(--text-light);
+  background: var(--bg-page);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 999px;
+  line-height: 1.4;
 }
 
+/* ============================
+   灵感记录
+   ============================ */
 .topic-card {
   background: var(--bg-card);
   border: 1px solid var(--border);

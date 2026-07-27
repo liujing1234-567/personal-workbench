@@ -145,6 +145,43 @@
     },
 
     // ===========================
+    // 选题池
+    // ===========================
+    getPoolTopics() {
+      return this.get('poolTopics', []);
+    },
+
+    addPoolTopic({ text, category, priority = 2 }) {
+      const list = this.getPoolTopics();
+      list.unshift({
+        id: this.uid(),
+        text: text.trim(),
+        category,
+        priority,
+        done: false,
+        createdAt: Date.now()
+      });
+      this.set('poolTopics', list);
+      return list;
+    },
+
+    togglePoolTopic(id) {
+      const list = this.getPoolTopics();
+      const idx = list.findIndex(t => t.id === id);
+      if (idx >= 0) {
+        list[idx].done = !list[idx].done;
+        this.set('poolTopics', list);
+      }
+      return list;
+    },
+
+    deletePoolTopic(id) {
+      const list = this.getPoolTopics().filter(t => t.id !== id);
+      this.set('poolTopics', list);
+      return list;
+    },
+
+    // ===========================
     // 灵感记录
     // ===========================
     getInspirations() {

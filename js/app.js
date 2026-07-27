@@ -5,7 +5,7 @@
 
     pages: {
       tasks: { title: '每日计划', render: () => Tasks.render() },
-      topics: { title: '选题来源', render: () => Topics.render() },
+      topics: { title: '选题池', render: () => Topics.render() },
       inspiration: { title: '灵感记录', render: () => Inspiration.render() },
       finance: { title: '小富婆金库收入', render: () => Finance.render() },
       settings: { title: '设置', render: () => App.renderSettings() }
@@ -59,13 +59,13 @@
       if (timeEl) timeEl.textContent = s.autoTime || '09:00';
     },
 
-    // 莫兰迪模块主题色定义
+    // 深色高级模块主题色
     themeColors: {
-      tasks:      { primary: '#7B8FA1', dark: '#5E7285', soft: '#EDF1F4', accent: '#C9A96E', gradient: 'linear-gradient(135deg, #7B8FA1 0%, #5E7285 100%)' },
-      topics:     { primary: '#9B8EBC', dark: '#7B6EA0', soft: '#F2EFF8', accent: '#B8936E', gradient: 'linear-gradient(135deg, #9B8EBC 0%, #7B6EA0 100%)' },
-      inspiration:{ primary: '#C49B7A', dark: '#A87D5E', soft: '#F8F2EC', accent: '#C47A7A', gradient: 'linear-gradient(135deg, #C49B7A 0%, #A87D5E 100%)' },
-      finance:    { primary: '#8B9D83', dark: '#6E7F66', soft: '#EFF2ED', accent: '#C4A24E', gradient: 'linear-gradient(135deg, #8B9D83 0%, #6E7F66 100%)' },
-      settings:   { primary: '#7B8FA1', dark: '#5E7285', soft: '#EDF1F4', accent: '#C9A96E', gradient: 'linear-gradient(135deg, #7B8FA1 0%, #5E7285 100%)' }
+      tasks:      { primary: '#3D5A6C', dark: '#2A3F4D', soft: '#E8EDF0', accent: '#C9A96E', gradient: 'linear-gradient(135deg, #3D5A6C 0%, #2A3F4D 100%)' },
+      topics:     { primary: '#8B4A4A', dark: '#6B3535', soft: '#F0E8E8', accent: '#B8936E', gradient: 'linear-gradient(135deg, #8B4A4A 0%, #6B3535 100%)' },
+      inspiration:{ primary: '#5B3A7A', dark: '#42285C', soft: '#EDE8F2', accent: '#C47A7A', gradient: 'linear-gradient(135deg, #5B3A7A 0%, #42285C 100%)' },
+      finance:    { primary: '#5C7F4F', dark: '#4A6A3F', soft: '#E8EFE3', accent: '#C4A24E', gradient: 'linear-gradient(135deg, #5C7F4F 0%, #4A6A3F 100%)' },
+      settings:   { primary: '#3D5A6C', dark: '#2A3F4D', soft: '#E8EDF0', accent: '#C9A96E', gradient: 'linear-gradient(135deg, #3D5A6C 0%, #2A3F4D 100%)' }
     },
 
     setModuleTheme(page) {
