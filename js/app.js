@@ -21,6 +21,9 @@
       this.bindMenu();
       this.updateUserStatus();
       this.navigate('tasks');
+
+      // 启动云端同步
+      if (window.Sync) Sync.init();
     },
 
     bindDrawer() {
@@ -138,12 +141,23 @@
             </div>
           </div>
 
+          <div class="setting-section">
+            <div class="setting-row">
+              <span class="setting-label">☁️ 云端同步</span>
+              <span class="setting-value"><span id="syncStatus" style="font-size:12px; color:var(--text-light);">初始化…</span></span>
+            </div>
+            <div class="setting-row" id="syncNowBtn" style="cursor:pointer;">
+              <span class="setting-label">🔄 立即同步</span>
+              <span class="setting-value">→</span>
+            </div>
+          </div>
+
           <div class="card" style="padding:12px 14px; font-size:12px; color:var(--text-light); line-height:1.7;">
             <div style="font-weight:600; color:var(--text); margin-bottom:6px;">💡 数据迁移说明</div>
             <div>1. 在旧设备点击「导出数据备份」，会下载一个 JSON 文件</div>
             <div>2. 将该文件发送到新设备（微信/邮件/云盘均可）</div>
             <div>3. 在新设备打开工作台，点击「导入数据备份」选择该文件</div>
-            <div style="margin-top:6px; color:var(--text-mute);">数据仅保存在本地，换设备前记得先导出</div>
+            <div style="margin-top:6px; color:var(--text-mute);">数据已开启云端自动同步，换设备自动拉取最新数据</div>
           </div>
 
           <div class="setting-section">
@@ -162,7 +176,7 @@
           </div>
 
           <p style="text-align:center; color:var(--text-mute); font-size:12px; margin-top:24px;">
-            你的所有数据都安全地保存在本设备上
+            你的数据会安全地保存在本设备，并自动同步到云端
           </p>
         </div>
       `;
@@ -234,6 +248,9 @@
           setTimeout(() => location.reload(), 1500);
         }
       };
+
+      // 绑定云端同步按钮并刷新状态显示
+      if (window.Sync) Sync.applyStatus();
     },
 
     toast(msg, duration = 1800) {
@@ -243,6 +260,12 @@
       el.classList.add('show');
       clearTimeout(el._t);
       el._t = setTimeout(() => el.classList.remove('show'), duration);
+    },
+
+    // 重新渲染当前页（云端同步后刷新视图）
+    refreshCurrent() {
+      const page = this.currentPage;
+      if (page && this.pages[page]) this.pages[page].render();
     }
   };
 

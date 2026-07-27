@@ -1,0 +1,14 @@
+// 同步配置
+// ⚠️ 安全提示：下面的 token 会随公开仓库一起发布到前端代码中，任何查看页面源码的人都能看到。
+// 强烈建议：去 GitHub → Settings → Developer settings → Fine-grained PAT，
+// 生成一个「仅限 personal-workbench 这一个仓库、只勾 Contents: Read and write」的 token 替换此处，
+// 这样即使泄露，影响也仅限于这一个仓库。
+window.APP_CONFIG = {
+  github: {
+    owner: 'liujing1234-567',
+    repo: 'personal-workbench',
+    branch: 'main',
+    syncPath: 'data/sync.json',
+    token: 'REMOVED_TOKEN_PLACEHOLDER'
+  }
+};

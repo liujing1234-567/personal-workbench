@@ -17,6 +17,7 @@
     set(key, value) {
       try {
         localStorage.setItem(KEY_PREFIX + key, JSON.stringify(value));
+        if (window.Sync) Sync.onLocalChange(key);
         return true;
       } catch (e) {
         console.warn('Store.set error:', key, e);
