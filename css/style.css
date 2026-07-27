@@ -717,6 +717,35 @@ input, textarea, select {
 /* ============================
    灵感记录
    ============================ */
+.tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 14px;
+  -webkit-overflow-scrolling: touch;
+}
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab {
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  color: var(--text-light);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.tab.active {
+  background: var(--module-primary);
+  border-color: var(--module-primary);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
 .topic-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
