@@ -52,7 +52,7 @@
 
     apiUrl() {
       const c = this.cfg;
-      return `https://api.github.com/repos/${c.owner}/${c.repo}/contents/${c.syncPath}?ref=${c.branch}`;
+      return `https://api.github.com/repos/${c.owner}/${c.repo}/contents/${c.syncPath}?ref=${c.syncBranch}`;
     },
 
     headers(extra) {
@@ -121,7 +121,7 @@
         const head = await fetch(this.apiUrl(), { headers: this.headers() });
         if (head.ok) { const hj = await head.json(); sha = hj.sha; }
 
-        const putBody = { message: 'sync: ' + new Date().toISOString(), content: content };
+        const putBody = { message: 'sync: ' + new Date().toISOString(), content: content, branch: this.cfg.syncBranch };
         if (sha) putBody.sha = sha;
         const res = await fetch(this.apiUrl(), {
           method: 'PUT',

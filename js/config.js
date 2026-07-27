@@ -8,6 +8,7 @@ window.APP_CONFIG = {
     owner: 'liujing1234-567',
     repo: 'personal-workbench',
     branch: 'main',
+    syncBranch: 'sync-data',   // 同步数据单独放在 sync-data 分支，不污染部署用的 main 分支
     syncPath: 'data/sync.json',
     token: 'REMOVED_TOKEN_PLACEHOLDER'
   }
