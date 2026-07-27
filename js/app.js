@@ -59,9 +59,29 @@
       if (timeEl) timeEl.textContent = s.autoTime || '09:00';
     },
 
+    // 莫兰迪模块主题色定义
+    themeColors: {
+      tasks:      { primary: '#7B8FA1', dark: '#5E7285', soft: '#EDF1F4', accent: '#C9A96E', gradient: 'linear-gradient(135deg, #7B8FA1 0%, #5E7285 100%)' },
+      topics:     { primary: '#9B8EBC', dark: '#7B6EA0', soft: '#F2EFF8', accent: '#B8936E', gradient: 'linear-gradient(135deg, #9B8EBC 0%, #7B6EA0 100%)' },
+      inspiration:{ primary: '#C49B7A', dark: '#A87D5E', soft: '#F8F2EC', accent: '#C47A7A', gradient: 'linear-gradient(135deg, #C49B7A 0%, #A87D5E 100%)' },
+      finance:    { primary: '#8B9D83', dark: '#6E7F66', soft: '#EFF2ED', accent: '#C4A24E', gradient: 'linear-gradient(135deg, #8B9D83 0%, #6E7F66 100%)' },
+      settings:   { primary: '#7B8FA1', dark: '#5E7285', soft: '#EDF1F4', accent: '#C9A96E', gradient: 'linear-gradient(135deg, #7B8FA1 0%, #5E7285 100%)' }
+    },
+
+    setModuleTheme(page) {
+      const colors = this.themeColors[page] || this.themeColors.tasks;
+      const root = document.documentElement;
+      root.style.setProperty('--module-primary', colors.primary);
+      root.style.setProperty('--module-dark', colors.dark);
+      root.style.setProperty('--module-soft', colors.soft);
+      root.style.setProperty('--module-accent', colors.accent);
+      root.style.setProperty('--module-gradient', colors.gradient);
+    },
+
     navigate(page) {
       if (!this.pages[page]) return;
       this.currentPage = page;
+      this.setModuleTheme(page);
       document.getElementById('pageTitle').textContent = this.pages[page].title;
       document.querySelectorAll('.menu-item').forEach(el => {
         el.classList.toggle('active', el.dataset.page === page);

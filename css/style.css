@@ -1,28 +1,31 @@
 /* ============================
    创作工作台 - 全局样式
-   主色调：油橄榄绿
+   配色：莫兰迪高级色系，四模块独立主题色
    ============================ */
 
 :root {
-  --primary: #5C7F4F;
-  --primary-dark: #4A6A3F;
-  --primary-light: #8AA876;
-  --primary-bg: #F5F5F0;
-  --primary-soft: #E8EFE3;
-  --text: #2C2C2C;
-  --text-light: #6B6B6B;
-  --text-mute: #9A9A9A;
-  --border: #E5E5E0;
+  /* 全局统一色 */
+  --bg-page: #F5F3F0;
   --bg-card: #FFFFFF;
-  --danger: #D9534F;
-  --warning: #E8A23F;
-  --success: #5C7F4F;
+  --border: #E8E5E0;
+  --text: #3A3A3A;
+  --text-light: #8C8C8C;
+  --text-mute: #B0B0B0;
+  --danger: #D4787A;
+  --warning: #C4A24E;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --topbar-h: 56px;
+
+  /* 模块主题色 - 默认(每日计划/雾蓝灰) */
+  --module-primary: #7B8FA1;
+  --module-dark: #5E7285;
+  --module-soft: #EDF1F4;
+  --module-accent: #C9A96E;
+  --module-gradient: linear-gradient(135deg, #7B8FA1 0%, #5E7285 100%);
 }
 
 * {
@@ -34,7 +37,7 @@
 
 html, body {
   height: 100%;
-  background: var(--primary-bg);
+  background: var(--bg-page);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   font-size: 15px;
@@ -91,7 +94,7 @@ input, textarea, select {
   transition: background 0.15s;
 }
 .icon-btn:active {
-  background: var(--primary-soft);
+  background: var(--module-soft);
 }
 
 .topbar-title {
@@ -148,7 +151,7 @@ input, textarea, select {
 .drawer-name {
   font-size: 22px;
   font-weight: 800;
-  color: var(--primary);
+  color: var(--module-primary);
   letter-spacing: 0.5px;
 }
 .drawer-sub {
@@ -179,10 +182,10 @@ input, textarea, select {
   font-weight: 600;
 }
 .menu-item:active {
-  background: var(--primary-soft);
+  background: var(--module-soft);
 }
 .menu-item.active {
-  background: var(--primary);
+  background: var(--module-primary);
   color: #FFFFFF;
   font-weight: 700;
 }
@@ -200,7 +203,7 @@ input, textarea, select {
   margin: 2px 0;
 }
 .status-time {
-  color: var(--primary);
+  color: var(--module-primary);
   font-weight: 600;
 }
 
@@ -252,8 +255,8 @@ input, textarea, select {
   border-radius: 999px;
   font-size: 11px;
   font-weight: 600;
-  background: var(--primary-soft);
-  color: var(--primary);
+  background: var(--module-soft);
+  color: var(--module-primary);
   margin-right: 6px;
 }
 .tag.tag-warning {
@@ -289,19 +292,19 @@ input, textarea, select {
   white-space: nowrap;
 }
 .btn-primary {
-  background: var(--primary);
+  background: var(--module-primary);
   color: #FFFFFF;
 }
 .btn-primary:active {
-  background: var(--primary-dark);
+  background: var(--module-dark);
 }
 .btn-outline {
   background: #FFFFFF;
-  border: 1px solid var(--primary);
-  color: var(--primary);
+  border: 1px solid var(--module-primary);
+  color: var(--module-primary);
 }
 .btn-outline:active {
-  background: var(--primary-soft);
+  background: var(--module-soft);
 }
 .btn-ghost {
   background: transparent;
@@ -333,7 +336,7 @@ input, textarea, select {
   transition: border-color 0.15s;
 }
 .input:focus, .textarea:focus, .select:focus {
-  border-color: var(--primary);
+  border-color: var(--module-primary);
 }
 .textarea {
   min-height: 80px;
@@ -416,7 +419,7 @@ input, textarea, select {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  background: var(--module-gradient);
   color: #FFFFFF;
   border: none;
   overflow: hidden;
@@ -496,8 +499,8 @@ input, textarea, select {
   cursor: pointer;
 }
 .task-check.checked {
-  background: var(--primary);
-  border-color: var(--primary);
+  background: var(--module-primary);
+  border-color: var(--module-primary);
 }
 .task-check.checked::after {
   content: '';
@@ -571,8 +574,8 @@ input, textarea, select {
   transition: all 0.15s;
 }
 .tab.active {
-  background: var(--primary);
-  border-color: var(--primary);
+  background: var(--module-primary);
+  border-color: var(--module-primary);
   color: #FFFFFF;
 }
 
@@ -600,7 +603,7 @@ input, textarea, select {
   margin-bottom: 8px;
 }
 .topic-desc strong {
-  color: var(--primary-dark);
+  color: var(--module-dark);
   font-weight: 600;
 }
 .topic-meta {
@@ -661,7 +664,7 @@ input, textarea, select {
 }
 .voice-btn {
   flex: 1;
-  background: var(--primary);
+  background: var(--module-primary);
   color: #FFFFFF;
   padding: 12px;
   border-radius: 10px;
@@ -709,8 +712,8 @@ input, textarea, select {
   transition: all 0.15s;
 }
 .inspiration-edit:active {
-  background: var(--primary-soft);
-  color: var(--primary);
+  background: var(--module-soft);
+  color: var(--module-primary);
 }
 .inspiration-delete:active {
   background: #FBE5E5;
@@ -727,7 +730,7 @@ input, textarea, select {
 }
 .inspiration-text strong {
   font-weight: 700;
-  color: var(--primary-dark);
+  color: var(--module-dark);
 }
 .inspiration-meta {
   display: flex;
@@ -742,12 +745,12 @@ input, textarea, select {
 .input-hint {
   font-size: 12px;
   color: var(--text-light);
-  background: var(--primary-soft);
+  background: var(--module-soft);
   padding: 6px 10px;
   border-radius: 8px;
 }
 .input-hint strong {
-  color: var(--primary-dark);
+  color: var(--module-dark);
 }
 .edit-toolbar {
   display: flex;
@@ -766,8 +769,8 @@ input, textarea, select {
   gap: 3px;
 }
 .tool-btn:active {
-  background: var(--primary-soft);
-  border-color: var(--primary);
+  background: var(--module-soft);
+  border-color: var(--module-primary);
 }
 
 /* 选题汇总区块 */
@@ -793,14 +796,14 @@ input, textarea, select {
 .topic-summary-bar-wrap {
   flex: 1;
   height: 8px;
-  background: var(--primary-soft);
+  background: var(--module-soft);
   border-radius: 4px;
   overflow: hidden;
   max-width: 120px;
 }
 .topic-summary-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary-light), var(--primary));
+  background: linear-gradient(90deg, var(--module-primary), var(--module-dark));
   border-radius: 4px;
   transition: width 0.3s;
 }
@@ -838,8 +841,8 @@ input, textarea, select {
   cursor: pointer;
 }
 .topic-check.checked {
-  background: var(--primary);
-  border-color: var(--primary);
+  background: var(--module-primary);
+  border-color: var(--module-primary);
 }
 .topic-check.checked::after {
   content: '';
@@ -859,7 +862,7 @@ input, textarea, select {
 }
 .topic-text strong {
   font-weight: 700;
-  color: var(--primary-dark);
+  color: var(--module-dark);
 }
 .topic-item.done .topic-text {
   color: var(--text-mute);
@@ -877,7 +880,7 @@ input, textarea, select {
   border-radius: 50%;
   flex-shrink: 0;
 }
-.topic-edit-btn:active { background: var(--primary-soft); color: var(--primary); }
+.topic-edit-btn:active { background: var(--module-soft); color: var(--module-primary); }
 .topic-del-btn:active { background: #FBE5E5; color: var(--danger); }
 .topic-empty {
   padding: 16px;
@@ -920,7 +923,7 @@ input, textarea, select {
   gap: 6px;
 }
 .summary-section {
-  background: var(--primary-soft);
+  background: var(--module-soft);
   border-radius: 10px;
   padding: 12px;
   margin-bottom: 10px;
@@ -928,7 +931,7 @@ input, textarea, select {
 .summary-section-title {
   font-size: 13px;
   font-weight: 600;
-  color: var(--primary-dark);
+  color: var(--module-dark);
   margin-bottom: 6px;
 }
 .summary-item {
@@ -942,7 +945,7 @@ input, textarea, select {
 .summary-item:last-child { margin-bottom: 0; }
 .summary-num {
   display: inline-block;
-  background: var(--primary);
+  background: var(--module-primary);
   color: #FFFFFF;
   border-radius: 999px;
   padding: 0 8px;
@@ -970,7 +973,7 @@ input, textarea, select {
 .stat-num {
   font-size: 20px;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--module-primary);
   margin-bottom: 2px;
 }
 .stat-label {
@@ -979,13 +982,13 @@ input, textarea, select {
 }
 .stat-card.big {
   grid-column: span 3;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  background: var(--module-gradient);
   color: #FFFFFF;
 }
 .stat-card.big .stat-num { color: #FFFFFF; font-size: 28px; }
 .stat-card.big .stat-label { color: rgba(255, 255, 255, 0.85); }
 .stat-card.big.year-card {
-  background: linear-gradient(135deg, #8A6D3B 0%, #6B5128 100%);
+  background: linear-gradient(135deg, var(--module-accent) 0%, #B8936E 100%);
 }
 
 /* 每月收入对比 */
@@ -1003,13 +1006,13 @@ input, textarea, select {
   transition: background 0.15s;
 }
 .monthly-row:active {
-  background: var(--primary-soft);
+  background: var(--module-soft);
 }
 .monthly-row.expanded {
   font-weight: 600;
 }
 .monthly-row.current {
-  color: var(--primary);
+  color: var(--module-primary);
   font-weight: 600;
 }
 .monthly-toggle {
@@ -1032,13 +1035,13 @@ input, textarea, select {
 .monthly-bar-wrap {
   flex: 1;
   height: 8px;
-  background: var(--primary-soft);
+  background: var(--module-soft);
   border-radius: 4px;
   overflow: hidden;
 }
 .monthly-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary-light), var(--primary));
+  background: linear-gradient(90deg, var(--module-primary), var(--module-dark));
   border-radius: 4px;
   transition: width 0.3s;
 }
@@ -1113,7 +1116,7 @@ input, textarea, select {
 .finance-amount {
   font-size: 16px;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--module-primary);
 }
 .finance-edit {
   width: 28px;
@@ -1127,8 +1130,8 @@ input, textarea, select {
   flex-shrink: 0;
 }
 .finance-edit:active {
-  background: var(--primary-soft);
-  color: var(--primary);
+  background: var(--module-soft);
+  color: var(--module-primary);
 }
 .finance-delete {
   width: 28px;
@@ -1159,7 +1162,7 @@ input, textarea, select {
 .finance-form-title {
   font-size: 14px;
   font-weight: 600;
-  color: var(--primary-dark);
+  color: var(--module-dark);
   margin-bottom: 12px;
 }
 
