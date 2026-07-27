@@ -17,8 +17,14 @@
     init() {
       this.cfg = (window.APP_CONFIG && window.APP_CONFIG.github) || null;
       this.meta = Store.get(this.META_KEY, {}) || {};
+      // Token 优先用 localStorage 中用户配置的（不写死在代码里，避免泄露被 GitHub 拦截）
+      if (this.cfg && !this.cfg.token) {
+        const saved = Store.get('syncToken', '');
+        if (saved) this.cfg.token = saved;
+      }
       if (!this.cfg || !this.cfg.token) {
         console.warn('[Sync] 未配置 token，云端同步已禁用');
+        this.lastStatus = 'no-token';
         return;
       }
       this.ready = true;
@@ -165,13 +171,15 @@
       if (btn) btn.onclick = () => { this.scheduleUpload(0); App.toast('正在同步…'); };
       const cfgBtn = document.getElementById('syncCfgBtn');
       if (cfgBtn) cfgBtn.onclick = () => {
-        const t = prompt('粘贴你的 GitHub Token（仅限本仓库的 Fine-grained PAT）：', '');
+        const t = prompt('粘贴你的 GitHub Token（仅限本仓库、Contents: Read and write 的 Fine-grained PAT）：', '');
         if (t && t.trim()) {
           this.cfg.token = t.trim();
           window.APP_CONFIG.github.token = t.trim();
+          Store.set('syncToken', t.trim());   // 持久化到本机，刷新后无需重填
           this.ready = true;
           this.download().then(() => this.scheduleUpload(500));
-          App.toast('Token 已更新，开始同步');
+          App.toast('Token 已保存，开始同步');
+          this.applyStatus();
         }
       };
     },
@@ -180,7 +188,7 @@
       this.lastStatus = s;
       const el = document.getElementById('syncStatus');
       if (!el) return;
-      const map = { syncing: '☁️ 同步中…', synced: '✅ 已同步', error: '⚠️ 同步失败（检查网络/Token）', idle: '○ 未同步' };
+      const map = { syncing: '☁️ 同步中…', synced: '✅ 已同步', error: '⚠️ 同步失败（检查网络/Token）', idle: '○ 未同步', 'no-token': '🔑 需在设置里配置 Token' };
       el.textContent = map[s] || '';
       el.dataset.status = s;
     },

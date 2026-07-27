@@ -150,6 +150,10 @@
               <span class="setting-label">🔄 立即同步</span>
               <span class="setting-value">→</span>
             </div>
+            <div class="setting-row" id="syncCfgBtn" style="cursor:pointer;">
+              <span class="setting-label">🔑 配置同步 Token</span>
+              <span class="setting-value">→</span>
+            </div>
           </div>
 
           <div class="card" style="padding:12px 14px; font-size:12px; color:var(--text-light); line-height:1.7;">
