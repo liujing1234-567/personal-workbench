@@ -141,7 +141,7 @@
 
         // 生成器卡片
         '<div class="generator-card">' +
-          '<div class="generator-header"><div class="generator-icon">🎯</div><div class="generator-title">' + catInfo.icon + ' ' + catInfo.name + ' 选题生成器</div></div>' +
+          '<div class="generator-header"><div class="generator-icon">🎯</div><div class="generator-title">选题生成器</div></div>' +
           '<div class="generator-hint">不知道写什么？点一下，结合热点与你的灵感生成6条选题</div>' +
           '<button class="generator-btn" id="generateBtn">✨ 生成选题灵感</button>' +
           generatedHtml +
