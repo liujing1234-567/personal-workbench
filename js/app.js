@@ -8,6 +8,7 @@
       topics: { title: '选题池', render: () => Topics.render() },
       inspiration: { title: '灵感记录', render: () => Inspiration.render() },
       finance: { title: '小富婆金库收入', render: () => Finance.render() },
+      publish: { title: '发布更新', render: () => Publish.render() },
       settings: { title: '设置', render: () => App.renderSettings() }
     },
 
@@ -21,6 +22,9 @@
       this.bindMenu();
       this.updateUserStatus();
       this.navigate('tasks');
+
+      // 初始化各功能模块
+      if (window.Publish) Publish.init();
 
       // 启动云端同步
       if (window.Sync) Sync.init();
@@ -68,6 +72,7 @@
       topics:     { primary: '#8B4A4A', dark: '#6B3535', soft: '#F0E8E8', accent: '#B8936E', gradient: 'linear-gradient(135deg, #8B4A4A 0%, #6B3535 100%)' },
       inspiration:{ primary: '#5B3A7A', dark: '#42285C', soft: '#EDE8F2', accent: '#C47A7A', gradient: 'linear-gradient(135deg, #5B3A7A 0%, #42285C 100%)' },
       finance:    { primary: '#5C7F4F', dark: '#4A6A3F', soft: '#E8EFE3', accent: '#C4A24E', gradient: 'linear-gradient(135deg, #5C7F4F 0%, #4A6A3F 100%)' },
+      publish:    { primary: '#2E7D74', dark: '#1F5A53', soft: '#E4EFED', accent: '#E0A85B', gradient: 'linear-gradient(135deg, #2E7D74 0%, #1F5A53 100%)' },
       settings:   { primary: '#3D5A6C', dark: '#2A3F4D', soft: '#E8EDF0', accent: '#C9A96E', gradient: 'linear-gradient(135deg, #3D5A6C 0%, #2A3F4D 100%)' }
     },
 
@@ -128,31 +133,31 @@
           <div class="setting-section">
             <div class="setting-row" id="exportBtn" style="cursor:pointer;">
               <span class="setting-label">📤 导出数据备份</span>
-              <span class="setting-value">→</span>
+              <span class="setting-value">➔</span>
             </div>
             <div class="setting-row" id="importBtn" style="cursor:pointer;">
               <span class="setting-label">📥 导入数据备份</span>
-              <span class="setting-value">→</span>
+              <span class="setting-value">➔</span>
             </div>
             <input type="file" id="importFile" accept=".json" style="display:none;" />
             <div class="setting-row" id="clearBtn" style="cursor:pointer; color:var(--danger);">
               <span class="setting-label">清空所有数据</span>
-              <span class="setting-value" style="color:var(--danger);">→</span>
+              <span class="setting-value" style="color:var(--danger);">➔</span>
             </div>
           </div>
 
           <div class="setting-section">
             <div class="setting-row">
               <span class="setting-label">☁️ 云端同步</span>
-              <span class="setting-value"><span id="syncStatus" style="font-size:12px; color:var(--text-light);">初始化…</span></span>
+              <span class="setting-value"><span id="syncStatus" style="font-size:12px; color:var(--text-light);">初始化中</span></span>
             </div>
             <div class="setting-row" id="syncNowBtn" style="cursor:pointer;">
               <span class="setting-label">🔄 立即同步</span>
-              <span class="setting-value">→</span>
+              <span class="setting-value">➔</span>
             </div>
             <div class="setting-row" id="syncCfgBtn" style="cursor:pointer;">
               <span class="setting-label">🔑 配置同步 Token</span>
-              <span class="setting-value">→</span>
+              <span class="setting-value">➔</span>
             </div>
           </div>
 
@@ -203,6 +208,7 @@
           topicsList: Store.getTopicsList(),
           inspiration: Store.getInspirations(),
           finance: Store.getFinances(),
+          publishRecords: Store.get('publishRecords', {}),
           settings: Store.getSettings(),
           exportAt: new Date().toISOString()
         };
@@ -211,7 +217,7 @@
         a.href = URL.createObjectURL(blob);
         a.download = `个人工作台数据_${Store.today()}.json`;
         a.click();
-        this.toast('已导出 ✓ 可发送到新设备');
+        this.toast('已导出 ✓ 可发到新设备');
       };
 
       // 导入数据
@@ -232,6 +238,7 @@
               if (data.topicsList) Store.set('topicsList', data.topicsList);
               if (data.inspiration) Store.set('inspiration', data.inspiration);
               if (data.finance) Store.set('finance', data.finance);
+              if (data.publishRecords) Store.set('publishRecords', data.publishRecords);
               if (data.settings) Store.set('settings', data.settings);
               this.toast('导入成功 ✓ 2秒后刷新');
               setTimeout(() => location.reload(), 2000);

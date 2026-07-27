@@ -398,6 +398,34 @@
 
     setSettings(settings) {
       this.set('settings', { ...this.getSettings(), ...settings });
+    },
+
+    // ===========================
+    // 发布更新打卡
+    // ===========================
+    getPublishRecords(date) {
+      const all = this.get('publishRecords', {});
+      return all[date] || null;
+    },
+
+    togglePublishRecord(date, accountId) {
+      const all = this.get('publishRecords', {});
+      if (!all[date]) all[date] = {};
+      all[date][accountId] = !all[date][accountId];
+      this.set('publishRecords', all);
+      return all[date];
+    },
+
+    // 获取某账号某月的打卡记录（返回 { 'YYYY-MM-DD': true }）
+    getPublishMonth(accountId, month) {
+      const all = this.get('publishRecords', {});
+      const result = {};
+      for (const date in all) {
+        if (date.indexOf(month + '-') === 0 && all[date][accountId]) {
+          result[date] = true;
+        }
+      }
+      return result;
     }
   };
 

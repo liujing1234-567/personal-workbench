@@ -1398,3 +1398,273 @@ input, textarea, select {
 .app-main::-webkit-scrollbar-track {
   background: transparent;
 }
+/* ============================
+   发布更新模块
+   ============================ */
+.pub-view-tabs {
+  display: flex;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+}
+.pub-view-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-light);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pub-view-tab.active {
+  background: var(--module-primary);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---- 每日打卡：周日期条 ---- */
+.pub-week-strip {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 14px;
+}
+.pub-week-inner {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 4px;
+}
+.pub-date-btn {
+  flex: 0 0 auto;
+  width: 46px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+}
+.pub-date-btn.active {
+  background: var(--module-primary);
+  border-color: var(--module-primary);
+  color: #fff;
+}
+.pub-date-dow {
+  font-size: 11px;
+  opacity: 0.85;
+}
+.pub-date-num {
+  font-size: 16px;
+  font-weight: 700;
+}
+.pub-date-today {
+  position: absolute;
+  top: -7px;
+  font-size: 9px;
+  background: var(--module-accent);
+  color: #fff;
+  padding: 1px 5px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* ---- 每日打卡：账号卡片 ---- */
+.pub-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pub-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  box-shadow: var(--shadow-sm);
+}
+.pub-card-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pub-card-icon {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--module-soft);
+  border-radius: 12px;
+}
+.pub-card-info { display: flex; flex-direction: column; }
+.pub-card-name { font-size: 15px; font-weight: 700; color: var(--text); }
+.pub-card-desc { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+.pub-check-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: #fff;
+  color: var(--text-light);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pub-check-btn.done {
+  background: var(--module-primary);
+  border-color: var(--module-primary);
+  color: #fff;
+}
+.pub-today-stat {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-light);
+  background: var(--module-soft);
+  border-radius: var(--radius-md);
+  padding: 10px;
+}
+.pub-today-stat b { color: var(--module-primary); font-size: 16px; }
+
+/* ---- 月报表：导航 ---- */
+.pub-month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.pub-nav-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--module-primary);
+  font-size: 16px;
+  cursor: pointer;
+}
+.pub-month-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ---- 月报表：账号卡片 ---- */
+.pub-month-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.pub-month-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
+}
+.pub-month-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.pub-month-acc-icon { font-size: 20px; }
+.pub-month-acc-name { font-size: 14px; font-weight: 700; color: var(--text); }
+.pub-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+.pub-cal-cell {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border-radius: 6px;
+  background: var(--module-soft);
+  color: var(--text-light);
+  font-weight: 600;
+}
+.pub-cal-cell.done {
+  color: #fff;
+  font-weight: 700;
+}
+.pub-cal-cell.future {
+  opacity: 0.35;
+  background: #F2F2F2;
+}
+.pub-month-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.pub-pct { font-weight: 700; }
+.pub-days { color: var(--text-light); }
+
+/* ---- 年报表 ---- */
+.pub-year-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+.pub-year-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.pub-y-head {
+  padding: 10px 8px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--module-soft);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.pub-y-cell {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.pub-y-label {
+  font-weight: 700;
+  color: var(--text);
+  background: var(--module-soft);
+  white-space: nowrap;
+}
+.pub-y-bar-wrap {
+  height: 8px;
+  background: #EEE;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+.pub-y-bar {
+  height: 100%;
+  border-radius: 999px;
+}
+.pub-y-text {
+  font-size: 11px;
+  color: var(--text-light);
+}

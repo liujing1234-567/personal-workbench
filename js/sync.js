@@ -11,7 +11,7 @@
     ready: false,
 
     // 需要同步的数据键（均为 Store 中用户数据，不含种子 topics）
-    SYNC_KEYS: ['tasks', 'poolTopics', 'topicGenHistory', 'inspiration', 'finance', 'topicsList', 'settings'],
+    SYNC_KEYS: ['tasks', 'poolTopics', 'topicGenHistory', 'inspiration', 'finance', 'topicsList', 'settings', 'publishRecords'],
     META_KEY: '_syncMeta',
 
     init() {
