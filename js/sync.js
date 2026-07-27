@@ -19,7 +19,7 @@
       this.meta = Store.get(this.META_KEY, {}) || {};
       // Token 优先用 localStorage 中用户配置的（不写死在代码里，避免泄露被 GitHub 拦截）
       if (this.cfg && !this.cfg.token) {
-        const saved = Store.get('syncToken', '');
+        const saved = localStorage.getItem('workbench.syncToken') || '';
         if (saved) this.cfg.token = saved;
       }
       if (!this.cfg || !this.cfg.token) {
@@ -175,7 +175,7 @@
         if (t && t.trim()) {
           this.cfg.token = t.trim();
           window.APP_CONFIG.github.token = t.trim();
-          Store.set('syncToken', t.trim());   // 持久化到本机，刷新后无需重填
+          localStorage.setItem('workbench.syncToken', t.trim());   // 持久化到本机，刷新后无需重填
           this.ready = true;
           this.download().then(() => this.scheduleUpload(500));
           App.toast('Token 已保存，开始同步');
