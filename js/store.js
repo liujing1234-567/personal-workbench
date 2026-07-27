@@ -181,6 +181,29 @@
       return list;
     },
 
+    // 选题生成历史（避免重复生成）
+    getGeneratedHistory() {
+      return this.get('topicGenHistory', {});
+    },
+
+    addGeneratedHistory(category, texts) {
+      const history = this.getGeneratedHistory();
+      if (!history[category]) history[category] = [];
+      const existing = new Set(history[category]);
+      texts.forEach(t => existing.add(t));
+      history[category] = Array.from(existing);
+      // 限制历史长度，避免无限增长
+      if (history[category].length > 200) {
+        history[category] = history[category].slice(-200);
+      }
+      this.set('topicGenHistory', history);
+      return history[category];
+    },
+
+    clearGeneratedHistory() {
+      this.set('topicGenHistory', {});
+    },
+
     // ===========================
     // 灵感记录
     // ===========================

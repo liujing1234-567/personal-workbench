@@ -141,15 +141,15 @@
 
         // 生成器卡片
         '<div class="generator-card">' +
-          '<div class="generator-header"><div class="generator-icon">🎯</div><div class="generator-title">' + catInfo.icon + ' ' + catInfo.desc + ' 选题生成器</div></div>' +
-          '<div class="generator-hint">不知道写什么？点一下，生成6条' + catInfo.desc + '选题</div>' +
+          '<div class="generator-header"><div class="generator-icon">🎯</div><div class="generator-title">' + catInfo.icon + ' ' + catInfo.name + ' 选题生成器</div></div>' +
+          '<div class="generator-hint">不知道写什么？点一下，结合热点与你的灵感生成6条选题</div>' +
           '<button class="generator-btn" id="generateBtn">✨ 生成选题灵感</button>' +
           generatedHtml +
         '</div>' +
 
         // 热点参考
         '<div class="trend-section">' +
-          '<div class="trend-title">🔥 ' + catInfo.desc + ' 本周热点参考</div>' +
+          '<div class="trend-title">🔥 本周热点参考</div>' +
           '<div class="trend-tags">' + trendTagsHtml + '</div>' +
         '</div>' +
       '</div>';
@@ -165,46 +165,69 @@
       const catTemplates = this.templates[cat] || [];
       const inspirations = Store.getInspirations();
 
-      // 从该方向的灵感记录中提取关键词
-      const catInspirations = inspirations.filter(i => i.category === cat);
+      // 该方向灵感记录（去掉 ** 标记）
+      const catInspirations = inspirations
+        .filter(i => i.category === cat)
+        .map(i => i.text.replace(/\*\*/g, '').trim())
+        .filter(t => t.length >= 3);
 
-      const generated = [];
-      const usedTexts = new Set();
+      // 历史已生成的选题（避免重复）
+      const history = Store.getGeneratedHistory()[cat] || [];
+      const usedTexts = new Set(history);
 
-      // 生成6条：3条热点+3条灵感记录（如果灵感不够则用热点补）
-      for (let i = 0; i < 6; i++) {
-        let topicText = '';
-        let attempts = 0;
-
-        while (!topicText && attempts < 10) {
-          let trend;
-          // 前3条用热点，后3条用灵感记录内容
-          if (i >= 3 && catInspirations.length > 0) {
-            const insp = catInspirations[Math.floor(Math.random() * catInspirations.length)];
-            const inspText = insp.text.replace(/\*\*/g, '').trim().slice(0, 12);
-            trend = inspText || trends[Math.floor(Math.random() * trends.length)];
-          } else {
-            trend = trends[Math.floor(Math.random() * trends.length)];
-          }
-
-          const tmpl = catTemplates[Math.floor(Math.random() * catTemplates.length)];
-          topicText = tmpl.replace('{trend}', trend);
-
-          if (usedTexts.has(topicText)) {
-            topicText = '';
-            attempts++;
-          }
+      // 构造选题的辅助函数
+      const buildTopic = () => {
+        // 50% 概率用灵感记录，50% 概率用热点
+        let keyword = '';
+        if (catInspirations.length > 0 && Math.random() < 0.5) {
+          keyword = catInspirations[Math.floor(Math.random() * catInspirations.length)];
+        } else if (trends.length > 0) {
+          keyword = trends[Math.floor(Math.random() * trends.length)];
+        } else if (catInspirations.length > 0) {
+          keyword = catInspirations[Math.floor(Math.random() * catInspirations.length)];
+        } else {
+          return null;
         }
 
-        if (topicText) {
+        // 灵感记录可能较长，取前15字作为关键词
+        keyword = keyword.slice(0, 15);
+        const tmpl = catTemplates[Math.floor(Math.random() * catTemplates.length)];
+        return tmpl.replace('{trend}', keyword);
+      };
+
+      const generated = [];
+      let attempts = 0;
+
+      while (generated.length < 6 && attempts < 60) {
+        attempts++;
+        const topicText = buildTopic();
+        if (topicText && !usedTexts.has(topicText)) {
           generated.push({ text: topicText, category: cat });
           usedTexts.add(topicText);
         }
       }
 
+      // 如果灵感+热点组合用尽仍不足6条，放宽限制用模板兜底
+      while (generated.length < 6) {
+        const tmpl = catTemplates[Math.floor(Math.random() * catTemplates.length)];
+        const trend = trends.length > 0 ? trends[Math.floor(Math.random() * trends.length)] : '我的日常';
+        const topicText = tmpl.replace('{trend}', trend);
+        if (!usedTexts.has(topicText)) {
+          generated.push({ text: topicText, category: cat });
+          usedTexts.add(topicText);
+        } else {
+          // 避免死循环，加序号区分
+          generated.push({ text: topicText + '（' + (generated.length + 1) + '）', category: cat });
+          break;
+        }
+      }
+
+      // 更新历史记录
+      Store.addGeneratedHistory(cat, generated.map(g => g.text));
+
       this.state.generated[cat] = generated;
       this.render();
-      App.toast('已生成 ' + generated.length + ' 条' + this.categories[cat].desc + '选题 ✨');
+      App.toast('已生成 ' + generated.length + ' 条' + this.categories[cat].name + '选题 ✨');
     },
 
     bind() {
@@ -230,7 +253,9 @@
       if (clearBtn) {
         clearBtn.onclick = () => {
           this.state.generated[this.state.activeCat] = [];
+          Store.addGeneratedHistory(this.state.activeCat, []); // 清空历史，允许重新生成
           this.render();
+          App.toast('已清空，可重新生成');
         };
       }
 
