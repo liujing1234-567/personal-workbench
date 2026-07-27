@@ -99,10 +99,30 @@
       }
     },
 
+    // ---- 确保同步分支存在（首次使用时自动从 main 创建）----
+    async ensureBranch() {
+      if (this.branchReady) return;
+      const c = this.cfg;
+      try {
+        const r = await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/git/refs/heads/main`, { headers: this.headers() });
+        if (!r.ok) return;
+        const sha = (await r.json()).object.sha;
+        const res = await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/git/refs`, {
+          method: 'POST',
+          headers: this.headers({ 'Content-Type': 'application/json' }),
+          body: JSON.stringify({ ref: 'refs/heads/' + c.syncBranch, sha: sha })
+        });
+        if (res.ok || res.status === 422 || res.status === 409) this.branchReady = true;
+      } catch (e) {
+        console.warn('[Sync] ensureBranch failed', e);
+      }
+    },
+
     // ---- 上传本地快照 ----
     async upload() {
       if (!this.ready || this.uploading) return;
       if (this.pending.size === 0) return;
+      await this.ensureBranch();
       this.uploading = true;
       this.setStatus('syncing');
       try {
