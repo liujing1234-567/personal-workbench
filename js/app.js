@@ -1,11 +1,9 @@
 // 主应用入口
 (function() {
   const App = {
-    currentPage: 'tasks',
+    currentPage: 'inspiration',
 
     pages: {
-      tasks: { title: '每日计划', render: () => Tasks.render() },
-      topics: { title: '选题池', render: () => Topics.render() },
       inspiration: { title: '灵感记录', render: () => Inspiration.render() },
       finance: { title: '小富婆金库收入', render: () => Finance.render() },
       publish: { title: '发布更新', render: () => Publish.render() },
@@ -21,7 +19,7 @@
       this.bindDrawer();
       this.bindMenu();
       this.updateUserStatus();
-      this.navigate('tasks');
+      this.navigate('inspiration');
 
       // 初始化各功能模块
       if (window.Publish) Publish.init();
@@ -68,8 +66,6 @@
 
     // 深色高级模块主题色
     themeColors: {
-      tasks:      { primary: '#3D5A6C', dark: '#2A3F4D', soft: '#E8EDF0', accent: '#C9A96E', gradient: 'linear-gradient(135deg, #3D5A6C 0%, #2A3F4D 100%)' },
-      topics:     { primary: '#8B4A4A', dark: '#6B3535', soft: '#F0E8E8', accent: '#B8936E', gradient: 'linear-gradient(135deg, #8B4A4A 0%, #6B3535 100%)' },
       inspiration:{ primary: '#5B3A7A', dark: '#42285C', soft: '#EDE8F2', accent: '#C47A7A', gradient: 'linear-gradient(135deg, #5B3A7A 0%, #42285C 100%)' },
       finance:    { primary: '#5C7F4F', dark: '#4A6A3F', soft: '#E8EFE3', accent: '#C4A24E', gradient: 'linear-gradient(135deg, #5C7F4F 0%, #4A6A3F 100%)' },
       publish:    { primary: '#2E7D74', dark: '#1F5A53', soft: '#E4EFED', accent: '#E0A85B', gradient: 'linear-gradient(135deg, #2E7D74 0%, #1F5A53 100%)' },
@@ -77,7 +73,7 @@
     },
 
     setModuleTheme(page) {
-      const colors = this.themeColors[page] || this.themeColors.tasks;
+      const colors = this.themeColors[page] || this.themeColors.inspiration;
       const root = document.documentElement;
       root.style.setProperty('--module-primary', colors.primary);
       root.style.setProperty('--module-dark', colors.dark);
