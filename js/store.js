@@ -209,10 +209,8 @@
     // 灵感记录
     // ===========================
     getInspirations() {
-      if (!this.get('inspiration')) {
-        this.set('inspiration', window.SEED_INSPIRATION);
-      }
-      return this.get('inspiration') || [];
+      // 不自动写入种子数据，避免无数据设备抢先上传覆盖云端
+      return this.get('inspiration') || (window.SEED_INSPIRATION || []).slice();
     },
 
     addInspiration(text, category = 'dy-beauty') {
@@ -254,9 +252,7 @@
     // 选题汇总（每个标签独立，用户自行编辑维护）
     // ===========================
     getTopicsList() {
-      if (!this.get('topicsList')) {
-        this.set('topicsList', {});
-      }
+      // 不自动写入空对象，避免无数据设备抢先上传覆盖云端
       return this.get('topicsList') || {};
     },
 
@@ -312,9 +308,7 @@
     // 记账本
     // ===========================
     getFinances() {
-      if (!this.get('finance')) {
-        this.set('finance', []);
-      }
+      // 不自动写入空数组，避免无数据设备抢先上传空列表覆盖云端
       return this.get('finance') || [];
     },
 

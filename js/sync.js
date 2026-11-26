@@ -9,6 +9,7 @@
     timer: null,
     suppress: false,     // 应用远程数据时抑制本地变更钩子
     ready: false,
+    initialDownloaded: false,  // 首次拉取完成后才允许上传，防止本地空数据抢先覆盖云端
 
     // 需要同步的数据键（均为 Store 中用户数据，不含种子 topics）
     SYNC_KEYS: ['tasks', 'poolTopics', 'topicGenHistory', 'inspiration', 'finance', 'topicsList', 'settings', 'publishRecords'],
@@ -31,7 +32,9 @@
       this.bindUI();
       // 启动即拉取远程并合并；随后把本地已有数据推上去（首次建立基准）
       this.download().then(() => {
-        this.scheduleUpload(800);
+        this.initialDownloaded = true;
+        // 首次拉取完成后做一次全量同步，把本地已有数据建立基准
+        this.syncAll();
       });
       // 后台定时拉取，保证多设备接近实时
       setInterval(() => this.download(), 45000);
@@ -54,6 +57,13 @@
     scheduleUpload(delay) {
       if (this.timer) clearTimeout(this.timer);
       this.timer = setTimeout(() => this.upload(), delay || 2500);
+    },
+
+    // 全量同步：把本地所有同步键推上去（配置 Token 后 / 手动「立即同步」时用）
+    syncAll() {
+      if (!this.ready) return;
+      for (const k of this.SYNC_KEYS) this.pending.add(k);
+      this.scheduleUpload(0);
     },
 
     apiUrl() {
@@ -127,6 +137,7 @@
     // ---- 上传本地快照 ----
     async upload() {
       if (!this.ready || this.uploading) return;
+      if (!this.initialDownloaded) { this.scheduleUpload(1000); return; }  // 等首次拉取合并完再推
       if (this.pending.size === 0) return;
       await this.ensureBranch();
       this.uploading = true;
@@ -168,7 +179,7 @@
     // ---- UI ----
     bindUI() {
       const btn = document.getElementById('syncNowBtn');
-      if (btn) btn.onclick = () => { this.scheduleUpload(0); App.toast('正在同步…'); };
+      if (btn) btn.onclick = () => { this.syncAll(); App.toast('正在同步…'); };
       const cfgBtn = document.getElementById('syncCfgBtn');
       if (cfgBtn) cfgBtn.onclick = () => {
         const t = prompt('粘贴你的 GitHub Token（仅限本仓库、Contents: Read and write 的 Fine-grained PAT）：', '');
@@ -177,7 +188,10 @@
           window.APP_CONFIG.github.token = t.trim();
           localStorage.setItem('workbench.syncToken', t.trim());   // 持久化到本机，刷新后无需重填
           this.ready = true;
-          this.download().then(() => this.scheduleUpload(500));
+          this.download().then(() => {
+            this.initialDownloaded = true;
+            this.syncAll();
+          });
           App.toast('Token 已保存，开始同步');
           this.applyStatus();
         }
