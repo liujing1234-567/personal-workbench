@@ -154,7 +154,8 @@
     renderDetailItem(f) {
       const p = this.platformLabels[f.platform] || { name: f.platform, cls: '' };
       return `
-        <div class="finance-item detail-item">
+        <div class="finance-item detail-item ${f.done ? 'done' : ''}">
+          <button class="finance-check ${f.done ? 'done' : ''}" data-id="${f.id}" data-action="check" aria-label="标记完成">✓</button>
           <div class="finance-info">
             <div class="finance-name">${this.escape(f.name)}</div>
             <div class="finance-meta">
@@ -172,7 +173,8 @@
       return list.map(f => {
         const p = this.platformLabels[f.platform] || { name: f.platform, cls: '' };
         return `
-          <div class="finance-item">
+          <div class="finance-item ${f.done ? 'done' : ''}">
+            <button class="finance-check ${f.done ? 'done' : ''}" data-id="${f.id}" data-action="check" aria-label="标记完成">✓</button>
             <div class="finance-info">
               <div class="finance-name">${this.escape(f.name)}</div>
               <div class="finance-meta">
@@ -251,6 +253,11 @@
 
       // 本月明细操作
       list.onclick = (e) => {
+        const checkBtn = e.target.closest('[data-action="check"]');
+        if (checkBtn) {
+          this.toggleDone(checkBtn.dataset.id);
+          return;
+        }
         const editBtn = e.target.closest('[data-action="edit"]');
         const delBtn = e.target.closest('[data-action="delete"]');
         if (editBtn) {
@@ -266,6 +273,11 @@
 
       // 每月汇总行：展开/收起 + 明细操作
       monthlyList.onclick = (e) => {
+        const checkBtn = e.target.closest('[data-action="check"]');
+        if (checkBtn) {
+          this.toggleDone(checkBtn.dataset.id);
+          return;
+        }
         const editBtn = e.target.closest('[data-action="edit"]');
         const delBtn = e.target.closest('[data-action="delete"]');
         if (editBtn) {
@@ -286,6 +298,15 @@
         this.state.expandedMonth = this.state.expandedMonth === month ? null : month;
         this.render();
       };
+    },
+
+    // 切换收入记录打勾状态（苹果备忘录样式）
+    toggleDone(id) {
+      const all = Store.getFinances();
+      const item = all.find(f => f.id === id);
+      if (!item) return;
+      Store.updateFinance(id, { done: !item.done });
+      this.render();
     },
 
     escape(s) {

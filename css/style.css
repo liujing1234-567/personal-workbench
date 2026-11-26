@@ -1668,3 +1668,40 @@ input, textarea, select {
   font-size: 11px;
   color: var(--text-light);
 }
+
+/* ============================
+   收入记录打勾（苹果备忘录样式）
+   ============================ */
+.finance-check {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: transparent;
+  color: transparent;
+  font-size: 12px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.finance-check:active {
+  transform: scale(0.9);
+}
+.finance-check.done {
+  background: var(--module-accent);
+  border-color: var(--module-accent);
+  color: #fff;
+  font-weight: 700;
+}
+.finance-item.done .finance-name {
+  text-decoration: line-through;
+  color: var(--text-mute);
+}
+.finance-item.done .finance-amount {
+  color: var(--text-mute);
+}
