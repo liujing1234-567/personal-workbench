@@ -1698,10 +1698,3 @@ input, textarea, select {
   color: #fff;
   font-weight: 700;
 }
-.finance-item.done .finance-name {
-  text-decoration: line-through;
-  color: var(--text-mute);
-}
-.finance-item.done .finance-amount {
-  color: var(--text-mute);
-}
